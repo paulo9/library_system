@@ -3,5 +3,13 @@
   "private": "true",
   "scripts": {
     "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+  },
+  "devDependencies": {
+    "vite": "^5.4.20",
+    "vite-plugin-ruby": "^5.1.1"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   }
 }
