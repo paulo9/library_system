@@ -14,9 +14,21 @@ services:
 
   web:
     build: .
-    command: bash -c "bundle exec rails s -b 0.0.0.0 -p 3000"
+    command: bash -c "bin/vite build --clear --mode=development && bundle exec rails s -b 0.0.0.0 -p 3000"
     volumes:
-      - .:/app
+      - ./app:/app/app
+      - ./config:/app/config
+      - ./db:/app/db
+      - ./lib:/app/lib
+      - ./public:/app/public
+      - ./tmp:/app/tmp
+      - ./log:/app/log
+      - ./storage:/app/storage
+      - ./Gemfile:/app/Gemfile
+      - ./Gemfile.lock:/app/Gemfile.lock
+      - ./Rakefile:/app/Rakefile
+      - ./config.ru:/app/config.ru
+      - ./README.md:/app/README.md
     ports:
       - "3000:3000"
     depends_on:

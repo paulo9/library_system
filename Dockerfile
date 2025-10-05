@@ -12,6 +12,9 @@ RUN bundle install
 
 # Copy package.json and install JS deps
 COPY package.json ./
+# Remove package-lock.json and node_modules to avoid platform conflicts
+RUN rm -f package-lock.json
+RUN rm -rf node_modules
 RUN npm install
 
 # Copy the rest of the app
