@@ -6,9 +6,9 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application.tailwind.css", "data-turbo-track": "reload" %>
     <%= vite_client_tag %>
-    <%= vite_javascript_tag 'application' %>
+    <%= vite_javascript_tag "application.jsx" %>
     <!--
       If using a TypeScript entrypoint file:
         vite_typescript_tag 'application'
@@ -23,5 +23,6 @@
 
   <body>
     <%= yield %>
+    <div id="root"></div>
   </body>
 </html>
