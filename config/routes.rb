@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     member do
       post :borrow_book
     end
+    collection do
+      get :index_react
+    end
   end
   
   resources :loans, only: [:index, :show] do

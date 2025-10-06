@@ -1,25 +1,19 @@
 import React from "react";
-import BooksList from "./BooksList";
+import ReactDOM from "react-dom/client";
+import BooksList from "../components/BooksList";
 
-export default function App() {
+// Books-specific React entry point
+const rootElement = document.getElementById("root");
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  
   // Get data from the page (passed from Rails)
   const booksData = window.booksData || { books: [], genres: [] };
   const currentUser = window.currentUser || null;
   const canCreateBook = window.canCreateBook || false;
   const searchParams = window.searchParams || { search: '', genre: '' };
 
-  // Don't render if no books data is available
-  if (!window.booksData) {
-    return (
-      <div className="p-6">
-        <div className="text-center text-gray-500">
-          Loading...
-        </div>
-      </div>
-    );
-  }
-
-  return (
+  root.render(
     <div className="p-6">
       <BooksList
         initialBooks={booksData.books}

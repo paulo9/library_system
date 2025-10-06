@@ -2,7 +2,7 @@
   <h1 class="text-3xl font-bold text-gray-900 mb-8">My Dashboard</h1>
 
   <!-- Statistics Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
     <div class="bg-white rounded-lg shadow-md p-6">
       <div class="flex items-center">
         <div class="p-2 bg-blue-100 rounded-lg">
@@ -88,7 +88,7 @@
   <% if @current_loans.any? %>
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
       <h2 class="text-xl font-semibold text-gray-900 mb-4">Currently Borrowed Books</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <% @current_loans.each do |loan| %>
           <div class="border rounded-lg p-4 <%= 'border-red-300 bg-red-50' if loan.overdue? %>">
             <h3 class="font-semibold text-gray-900 mb-2"><%= loan.book.title %></h3>

@@ -44,6 +44,7 @@
             <span>Welcome, <%= current_user.full_name %> (<%= current_user.role.titleize %>)</span>
             <%= link_to "Dashboard", dashboard_path, class: "hover:underline" %>
             <%= link_to "Books", books_path, class: "hover:underline" %>
+            <!-- <%= link_to "Books (React)", index_react_books_path, class: "hover:underline" %> -->
             <%= link_to "My Loans", loans_path, class: "hover:underline" %>
             <% if current_user.librarian? %>
               <%= link_to "Add Book", new_book_path, class: "hover:underline" %>
@@ -63,7 +64,5 @@
     <main class="container mx-auto px-4">
       <%= yield %>
     </main>
-    
-    <div id="root"></div>
   </body>
 </html>

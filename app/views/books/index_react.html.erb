@@ -1,0 +1,11 @@
+<script>
+  // Pass data from Rails to React
+  window.booksData = <%= raw @books_data.to_json %>;
+  window.currentUser = <%= raw @current_user_data.to_json %>;
+  window.canCreateBook = <%= @can_create_book %>;
+  window.searchParams = <%= raw @search_params.to_json %>;
+</script>
+
+<div id="root"></div>
+
+<%= vite_javascript_tag "books.jsx" %>

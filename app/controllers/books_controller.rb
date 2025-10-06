@@ -23,6 +23,62 @@ class BooksController < ApplicationController
     @books = @books.order(:title)
   end
 
+  def index_react
+    @books = policy_scope(Book)
+    
+    # Search functionality
+    if params[:search].present?
+      @books = @books.search(params[:search])
+    end
+    
+    # Filter by genre
+    if params[:genre].present?
+      @books = @books.by_genre(params[:genre])
+    end
+    
+    # Get unique genres for filter dropdown
+    @genres = Book.distinct.pluck(:genre).compact.sort
+    
+    # Pagination (you can add gem 'kaminari' or 'will_paginate' later)
+    @books = @books.order(:title)
+    
+    # Prepare data for React component
+    @books_data = {
+      books: @books.map do |book|
+        {
+          id: book.id,
+          title: book.title,
+          author: book.author,
+          genre: book.genre,
+          isbn: book.isbn,
+          total_copies: book.total_copies,
+          available_copies: book.available_copies,
+          borrowed_copies: book.borrowed_copies,
+          availability_status: book.availability_status,
+          available: book.available?,
+          borrowed_by_current_user: current_user.present? ? book.borrowed_by?(current_user) : false,
+          created_at: book.created_at,
+          updated_at: book.updated_at
+        }
+      end,
+      genres: @genres
+    }
+    
+    @current_user_data = current_user.present? ? {
+      id: current_user.id,
+      email: current_user.email,
+      role: current_user.role,
+      first_name: current_user.first_name,
+      last_name: current_user.last_name
+    } : nil
+    
+    @can_create_book = policy(Book).create?
+    @search_params = {
+      search: params[:search] || '',
+      genre: params[:genre] || ''
+    }
+  end
+
   def show
   end
 
