@@ -6,6 +6,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application.tailwind.css", "data-turbo-track": "reload" %>
     <%= vite_client_tag %>
     <%= vite_javascript_tag "application.jsx" %>
     <!--
@@ -42,17 +44,13 @@
         <div class="flex space-x-4">
           <% if user_signed_in? %>
             <span>Welcome, <%= current_user.full_name %> (<%= current_user.role.titleize %>)</span>
-            <%= link_to "Dashboard", dashboard_path, class: "hover:underline" %>
+            <%= link_to "Dashboard", root_path, class: "hover:underline" %>
             <%= link_to "Books", books_path, class: "hover:underline" %>
-            <!-- <%= link_to "Books (React)", index_react_books_path, class: "hover:underline" %> -->
-            <%= link_to "My Loans", loans_path, class: "hover:underline" %>
             <% if current_user.librarian? %>
               <%= link_to "Add Book", new_book_path, class: "hover:underline" %>
             <% end %>
             <%= link_to "Edit Profile", edit_user_registration_path, class: "hover:underline" %>
-            <%= form_with url: destroy_user_session_path, method: :delete, local: true, class: "inline" do |form| %>
-              <%= form.submit "Logout", class: "hover:underline bg-transparent border-none cursor-pointer text-white" %>
-            <% end %>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "hover:underline" %>
           <% else %>
             <%= link_to "Login", new_user_session_path, class: "hover:underline" %>
             <%= link_to "Sign Up", new_user_registration_path, class: "hover:underline" %>
@@ -64,5 +62,7 @@
     <main class="container mx-auto px-4">
       <%= yield %>
     </main>
+    
+    <div id="root"></div>
   </body>
 </html>
