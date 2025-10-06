@@ -14,7 +14,7 @@ services:
 
   web:
     build: .
-    command: bash -c "bin/vite build --clear --mode=development && bundle exec rails s -b 0.0.0.0 -p 3000"
+    command: bash -c "bundle exec rails tailwindcss:build && bin/vite build --clear --mode=development && bundle exec rails s -b 0.0.0.0 -p 3000"
     volumes:
       - ./app:/app/app
       - ./config:/app/config
