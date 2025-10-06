@@ -1,3 +1,87 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<% if user_signed_in? %>
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">Welcome to the Library Management System</h1>
+    
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">User Information</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <p><strong>Name:</strong> <%= current_user.full_name %></p>
+          <p><strong>Email:</strong> <%= current_user.email %></p>
+          <p><strong>Role:</strong> <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= current_user.librarian? ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' %>"><%= current_user.role.titleize %></span></p>
+        </div>
+        <div>
+          <p><strong>Member since:</strong> <%= current_user.created_at.strftime("%B %d, %Y") %></p>
+          <p><strong>Last sign in:</strong> <%= current_user.last_sign_in_at ? current_user.last_sign_in_at.strftime("%B %d, %Y at %I:%M %p") : "Never" %></p>
+        </div>
+      </div>
+    </div>
+
+    <% if current_user.librarian? %>
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+        <h2 class="text-xl font-semibold text-blue-900 mb-4">Librarian Dashboard</h2>
+        <p class="text-blue-800 mb-4">As a librarian, you have access to administrative functions:</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="bg-white p-4 rounded-lg border border-blue-200">
+            <h3 class="font-semibold text-blue-900">Manage Books</h3>
+            <p class="text-sm text-blue-700">Add, edit, and remove books from the library</p>
+          </div>
+          <div class="bg-white p-4 rounded-lg border border-blue-200">
+            <h3 class="font-semibold text-blue-900">Manage Members</h3>
+            <p class="text-sm text-blue-700">View and manage library members</p>
+          </div>
+          <div class="bg-white p-4 rounded-lg border border-blue-200">
+            <h3 class="font-semibold text-blue-900">Check Out/In</h3>
+            <p class="text-sm text-blue-700">Process book checkouts and returns</p>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+        <h2 class="text-xl font-semibold text-green-900 mb-4">Member Dashboard</h2>
+        <p class="text-green-800 mb-4">As a library member, you can:</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="bg-white p-4 rounded-lg border border-green-200">
+            <h3 class="font-semibold text-green-900">Browse Books</h3>
+            <p class="text-sm text-green-700">Search and browse the library catalog</p>
+          </div>
+          <div class="bg-white p-4 rounded-lg border border-green-200">
+            <h3 class="font-semibold text-green-900">My Books</h3>
+            <p class="text-sm text-green-700">View your checked out books</p>
+          </div>
+          <div class="bg-white p-4 rounded-lg border border-green-200">
+            <h3 class="font-semibold text-green-900">Reserve Books</h3>
+            <p class="text-sm text-green-700">Reserve books that are currently checked out</p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h2>
+      <div class="flex flex-wrap gap-4">
+        <% if current_user.librarian? %>
+          <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Add New Book</button>
+          <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">View All Members</button>
+          <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Check Out Book</button>
+        <% else %>
+          <button class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors">Browse Books</button>
+          <button class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors">My Checked Out Books</button>
+          <button class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors">Reserve a Book</button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="text-4xl font-bold text-gray-900 mb-6">Welcome to the Library Management System</h1>
+    <p class="text-xl text-gray-600 mb-8">Please sign in or create an account to access the library services.</p>
+    
+    <div class="flex justify-center space-x-4">
+      <%= link_to "Sign In", new_user_session_path, class: "bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors" %>
+      <%= link_to "Sign Up", new_user_registration_path, class: "bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition-colors" %>
+    </div>
+  </div>
+<% end %>
+
 <div id="root"></div>

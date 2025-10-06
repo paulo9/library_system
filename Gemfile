@@ -38,6 +38,12 @@ gem "jbuilder"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
+# Authentication
+gem "devise"
+
+# Authorization
+gem "pundit"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
@@ -70,3 +76,5 @@ group :test do
 end
 
 gem "vite_rails", "~> 3.0"
+
+gem "tailwindcss-rails", "~> 4.3"
