@@ -20,6 +20,9 @@ RUN npm install
 # Copy the rest of the app
 COPY . .
 
+# Build Tailwind CSS
+RUN bundle exec rails tailwindcss:build
+
 # Expose port
 EXPOSE 3000
 
