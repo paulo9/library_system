@@ -1,0 +1,13 @@
+one:
+  title: "The Great Gatsby"
+  author: "F. Scott Fitzgerald"
+  genre: "Fiction"
+  isbn: "9780743273565"
+  total_copies: 3
+
+two:
+  title: "1984"
+  author: "George Orwell"
+  genre: "Science Fiction"
+  isbn: "9780451524935"
+  total_copies: 4
