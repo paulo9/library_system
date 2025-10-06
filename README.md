@@ -5,6 +5,7 @@ A modern library management system built with Ruby on Rails 7.1, React, and Post
 ## 🚀 Features
 
 ### Core Functionality
+
 - **User Authentication & Authorization** - Devise-based authentication with role-based access (Librarian/Member)
 - **Book Management** - CRUD operations for books with search and filtering
 - **Loan Management** - Borrow and return books with due date tracking
@@ -12,12 +13,14 @@ A modern library management system built with Ruby on Rails 7.1, React, and Post
 - **Modern UI** - Tailwind CSS with responsive design
 
 ### API Features
+
 - **RESTful API** - Complete CRUD operations for books and loans
 - **Public API** - Token-based public access for external integrations
 - **Authenticated API** - Session-based authentication for internal use
 - **Comprehensive Testing** - RSpec test suite with FactoryBot
 
 ### Frontend
+
 - **React Integration** - Modern React components with Vite
 - **Hybrid Approach** - Mix of Rails ERB views and React components
 - **API Integration** - Real-time data fetching and updates
@@ -25,6 +28,7 @@ A modern library management system built with Ruby on Rails 7.1, React, and Post
 ## 🛠️ Tech Stack
 
 ### Backend
+
 - **Ruby 3.3.0**
 - **Rails 7.1.3**
 - **PostgreSQL 15**
@@ -33,12 +37,14 @@ A modern library management system built with Ruby on Rails 7.1, React, and Post
 - **RSpec** - Testing
 
 ### Frontend
+
 - **React 19.2.0**
 - **Vite** - Build tool
 - **Tailwind CSS** - Styling
 - **JavaScript ES6+**
 
 ### Infrastructure
+
 - **Docker & Docker Compose**
 - **PostgreSQL** - Database
 - **Puma** - Web server
@@ -64,20 +70,20 @@ cd library_system
 
 ```bash
 # Start all services (database + web server)
-docker-compose up
+docker compose up
 
 # Or run in background
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 3. Initialize the Database
 
 ```bash
 # Run database migrations
-docker-compose exec web rails db:migrate
+docker compose exec web rails db:migrate
 
 # Seed the database with sample data
-docker-compose exec web rails db:seed
+docker compose exec web rails db:seed
 ```
 
 ### 4. Access the Application
@@ -89,13 +95,31 @@ docker-compose exec web rails db:seed
 
 After seeding, you can log in with these accounts:
 
-### Librarian Account
-- **Email**: librarian@example.com
+### Librarian Accounts
+
+**Sarah Johnson (Librarian)**
+
+- **Email**: librarian@library.com
 - **Password**: password123
 - **Permissions**: Full access to all features
 
-### Member Account
-- **Email**: member@example.com
+**Michael Brown (Admin/Librarian)**
+
+- **Email**: admin@library.com
+- **Password**: password123
+- **Permissions**: Full access to all features
+
+### Member Accounts
+
+**John Smith (Member)**
+
+- **Email**: member1@library.com
+- **Password**: password123
+- **Permissions**: Borrow books, view own loans
+
+**Emily Davis (Member)**
+
+- **Email**: member2@library.com
 - **Password**: password123
 - **Permissions**: Borrow books, view own loans
 
@@ -107,19 +131,19 @@ All Rails commands should be run inside the Docker container:
 
 ```bash
 # Run Rails console
-docker-compose exec web rails console
+docker compose exec web rails console
 
 # Run database migrations
-docker-compose exec web rails db:migrate
+docker compose exec web rails db:migrate
 
 # Run tests
-docker-compose exec web rspec
+docker compose exec web rspec
 
 # Generate new migration
-docker-compose exec web rails generate migration CreateNewTable
+docker compose exec web rails generate migration CreateNewTable
 
 # Run specific test file
-docker-compose exec web rspec spec/requests/api/v1/books_spec.rb
+docker compose exec web rspec spec/requests/api/v1/books_spec.rb
 ```
 
 ### File Structure
@@ -166,13 +190,13 @@ app/
 
 ```bash
 # Run all tests
-docker-compose exec web rspec
+docker compose exec web rspec
 
 # Run specific test file
-docker-compose exec web rspec spec/requests/api/v1/books_spec.rb
+docker compose exec web rspec spec/requests/api/v1/books_spec.rb
 
 # Run tests with coverage
-docker-compose exec web rspec --format documentation
+docker compose exec web rspec --format documentation
 ```
 
 ### Test Structure
@@ -196,22 +220,25 @@ spec/
 ### Authentication
 
 #### Public API (Token-based)
+
 ```bash
 # Use this token for public API access
 Authorization: Bearer library_api_2024_secure_token
 ```
 
 #### Authenticated API (Session-based)
+
 ```bash
 # Login first, then use session cookies
 curl -X POST http://localhost:3000/users/sign_in \
-  -d "user[email]=librarian@example.com" \
+  -d "user[email]=librarian@library.com" \
   -d "user[password]=password123"
 ```
 
 ### API Endpoints
 
 #### Books API
+
 ```bash
 # Get all books (public)
 curl -H "Authorization: Bearer library_api_2024_secure_token" \
@@ -236,6 +263,7 @@ curl -X DELETE http://localhost:3000/api/v1/books/1
 ```
 
 #### Loans API
+
 ```bash
 # Get all loans (authenticated)
 curl http://localhost:3000/api/v1/loans
@@ -276,4 +304,3 @@ curl -X PUT http://localhost:3000/api/v1/loans/1 \
   }
 }
 ```
-
