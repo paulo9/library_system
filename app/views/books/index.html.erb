@@ -67,10 +67,11 @@
             
             <div class="flex gap-2">
               <% if current_user.member? && book.available? && !book.borrowed_by?(current_user) %>
-                <%= link_to "Borrow", borrow_book_book_path(book), 
-                    method: :post,
-                    data: { confirm: "Borrow this book? It will be due in 2 weeks." },
-                    class: "bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-2 rounded" %>
+                <%= form_with url: borrow_book_book_path(book), method: :post, local: true, class: "inline" do |form| %>
+                  <%= form.submit "Borrow", 
+                      data: { confirm: "Borrow this book? It will be due in 2 weeks." },
+                      class: "bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-2 rounded border-none cursor-pointer" %>
+                <% end %>
               <% elsif current_user.member? && book.borrowed_by?(current_user) %>
                 <span class="text-green-600 text-xs font-medium">Borrowed by you</span>
               <% elsif !book.available? %>
@@ -80,10 +81,11 @@
               <% if policy(book).edit? %>
                 <%= link_to "Edit", edit_book_path(book), 
                     class: "text-yellow-600 hover:text-yellow-800 font-medium" %>
-                <%= link_to "Delete", book_path(book), 
-                    method: :delete, 
-                    data: { confirm: "Are you sure you want to delete this book?" },
-                    class: "text-red-600 hover:text-red-800 font-medium" %>
+                <%= form_with url: book_path(book), method: :delete, local: true, class: "inline" do |form| %>
+                  <%= form.submit "Delete", 
+                      data: { confirm: "Are you sure you want to delete this book?" },
+                      class: "text-red-600 hover:text-red-800 font-medium bg-transparent border-none cursor-pointer underline" %>
+                <% end %>
               <% end %>
             </div>
           </div>

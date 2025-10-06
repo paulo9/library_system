@@ -32,7 +32,7 @@ class LoanPolicy < ApplicationPolicy
   end
 
   # Custom actions
-  def borrow?
+  def borrow_book?
     user&.member? && record.book.available? && !record.book.borrowed_by?(user)
   end
 

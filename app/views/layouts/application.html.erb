@@ -51,7 +51,9 @@
               <%= link_to "Add Book", new_book_path, class: "hover:underline" %>
             <% end %>
             <%= link_to "Edit Profile", edit_user_registration_path, class: "hover:underline" %>
-            <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "hover:underline" %>
+            <%= form_with url: destroy_user_session_path, method: :delete, local: true, class: "inline" do |form| %>
+              <%= form.submit "Logout", class: "hover:underline bg-transparent border-none cursor-pointer text-white" %>
+            <% end %>
           <% else %>
             <%= link_to "Login", new_user_session_path, class: "hover:underline" %>
             <%= link_to "Sign Up", new_user_registration_path, class: "hover:underline" %>

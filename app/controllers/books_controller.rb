@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_book, only: [:show, :edit, :update, :destroy]
+  before_action :set_book, only: [:show, :edit, :update, :destroy, :borrow_book]
   before_action :authorize_book, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -56,6 +56,26 @@ class BooksController < ApplicationController
   def destroy
     @book.destroy
     redirect_to books_url, notice: 'Book was successfully deleted.'
+  end
+
+  def borrow_book
+    if current_user.can_borrow_book?(@book)
+      @loan = Loan.new(
+        user: current_user,
+        book: @book,
+        borrowed_at: Time.current
+      )
+      
+      authorize @loan
+      
+      if @loan.save
+        redirect_to @book, notice: "Book borrowed successfully! Due date: #{@loan.due_date.strftime('%B %d, %Y')}"
+      else
+        redirect_to @book, alert: "Unable to borrow book: #{@loan.errors.full_messages.join(', ')}"
+      end
+    else
+      redirect_to @book, alert: "You cannot borrow this book. It may not be available or you may have already borrowed it."
+    end
   end
 
   private
