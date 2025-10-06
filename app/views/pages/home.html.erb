@@ -12,7 +12,6 @@
         </div>
         <div>
           <p><strong>Member since:</strong> <%= current_user.created_at.strftime("%B %d, %Y") %></p>
-          <p><strong>Last sign in:</strong> <%= current_user.last_sign_in_at ? current_user.last_sign_in_at.strftime("%B %d, %Y at %I:%M %p") : "Never" %></p>
         </div>
       </div>
     </div>
