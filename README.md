@@ -25,6 +25,11 @@ A modern library management system built with Ruby on Rails 7.1, React, and Post
 - **Hybrid Approach** - Mix of Rails ERB views and React components
 - **API Integration** - Real-time data fetching and updates
 
+## 📚 Documentation
+
+- **[User Story](user-story.md)** - Detailed user stories and requirements for the library management system
+- **[Generative AI Development](gen-ai.md)** - Documentation on using AI tools
+
 ## 🛠️ Tech Stack
 
 ### Backend
