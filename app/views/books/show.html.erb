@@ -55,8 +55,8 @@
           </div>
           
           <div>
-            <span class="font-medium text-gray-700">Available Copies:</span>
-            <p class="text-gray-900"><%= @book.available_copies %></p>
+            <span class="font-medium text-gray-700">Availability:</span>
+            <p class="text-gray-900"><%= @book.availability_status %></p>
           </div>
         </div>
       </div>
@@ -77,6 +77,30 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Borrow/Return Actions -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-xl font-semibold text-gray-900 mb-4">Actions</h2>
+    
+    <% if current_user.member? %>
+      <% if @book.available? && !@book.borrowed_by?(current_user) %>
+        <%= link_to "Borrow This Book", borrow_book_book_path(@book), 
+            method: :post,
+            data: { confirm: "Borrow this book? It will be due in 2 weeks." },
+            class: "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
+      <% elsif @book.borrowed_by?(current_user) %>
+        <div class="flex items-center space-x-4">
+          <span class="text-green-600 font-medium">✓ You have borrowed this book</span>
+          <% loan = @book.current_loan_for(current_user) %>
+          <span class="text-sm text-gray-600">
+            Due: <%= loan.due_date.strftime('%B %d, %Y') %>
+          </span>
+        </div>
+      <% else %>
+        <span class="text-red-600 font-medium">This book is not available for borrowing</span>
+      <% end %>
+    <% end %>
   </div>
 
   <!-- Actions -->

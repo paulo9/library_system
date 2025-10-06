@@ -1,0 +1,21 @@
+active_loan:
+  user: member
+  book: one
+  borrowed_at: <%= 1.week.ago %>
+  due_date: <%= 1.week.from_now %>
+  status: 0
+
+overdue_loan:
+  user: member
+  book: two
+  borrowed_at: <%= 3.weeks.ago %>
+  due_date: <%= 1.week.ago %>
+  status: 0
+
+returned_loan:
+  user: member
+  book: one
+  borrowed_at: <%= 1.month.ago %>
+  due_date: <%= 2.weeks.ago %>
+  returned_at: <%= 1.week.ago %>
+  status: 1

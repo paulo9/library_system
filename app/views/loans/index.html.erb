@@ -1,0 +1,128 @@
+<div class="max-w-6xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+      <% if current_user.librarian? %>
+        All Loans
+      <% else %>
+        My Loans
+      <% end %>
+    </h1>
+    <p class="text-gray-600">
+      <% if current_user.librarian? %>
+        Manage all book loans in the library system.
+      <% else %>
+        View your borrowed books and their due dates.
+      <% end %>
+    </p>
+  </div>
+
+  <% if @loans.any? %>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Book</th>
+              <% if current_user.librarian? %>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Borrower</th>
+              <% end %>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Borrowed Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @loans.each do |loan| %>
+              <tr class="<%= 'bg-red-50' if loan.overdue? %>">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">
+                    <%= link_to loan.book.title, book_path(loan.book), class: "hover:text-blue-600" %>
+                  </div>
+                  <div class="text-sm text-gray-500">by <%= loan.book.author %></div>
+                </td>
+                
+                <% if current_user.librarian? %>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <%= loan.user.full_name %>
+                  </td>
+                <% end %>
+                
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <%= loan.borrowed_at.strftime('%B %d, %Y') %>
+                </td>
+                
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <%= loan.due_date.strftime('%B %d, %Y') %>
+                  <% if loan.overdue? %>
+                    <div class="text-xs text-red-600 font-medium">
+                      <%= loan.days_overdue %> days overdue
+                    </div>
+                  <% elsif loan.borrowed? && loan.days_until_due <= 3 %>
+                    <div class="text-xs text-yellow-600 font-medium">
+                      Due in <%= loan.days_until_due %> days
+                    </div>
+                  <% end %>
+                </td>
+                
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <% if loan.borrowed? %>
+                    <% if loan.overdue? %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        Overdue
+                      </span>
+                    <% elsif loan.days_until_due <= 3 %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                        Due Soon
+                      </span>
+                    <% else %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        Borrowed
+                      </span>
+                    <% end %>
+                  <% else %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      Returned
+                    </span>
+                    <div class="text-xs text-gray-500 mt-1">
+                      <%= loan.returned_at.strftime('%B %d, %Y') %>
+                    </div>
+                  <% end %>
+                </td>
+                
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <% if loan.borrowed? && current_user.librarian? %>
+                    <%= form_with url: return_book_loan_path(loan), method: :patch, local: true, class: "inline" do |form| %>
+                      <%= form.submit "Mark Returned", 
+                          data: { confirm: "Mark this book as returned?" },
+                          class: "text-green-600 hover:text-green-900 bg-transparent border-none cursor-pointer underline" %>
+                    <% end %>
+                  <% elsif loan.borrowed? %>
+                    <span class="text-gray-400">Contact librarian to return</span>
+                  <% else %>
+                    <span class="text-gray-400">-</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <div class="text-gray-500 text-lg">
+        <% if current_user.librarian? %>
+          No loans found in the system.
+        <% else %>
+          You haven't borrowed any books yet.
+        <% end %>
+      </div>
+      <% unless current_user.librarian? %>
+        <div class="mt-4">
+          <%= link_to "Browse Books", books_path, class: "text-blue-600 hover:text-blue-800 font-medium" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

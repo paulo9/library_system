@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :loans, dependent: :destroy
+  has_many :borrowed_books, through: :loans, source: :book
+
   # Role enum
   enum role: { member: 0, librarian: 1 }
 
@@ -23,5 +26,21 @@ class User < ApplicationRecord
 
   def member?
     role == 'member'
+  end
+
+  def current_loans
+    loans.borrowed.includes(:book)
+  end
+
+  def overdue_loans
+    loans.overdue.includes(:book)
+  end
+
+  def loans_due_today
+    loans.due_today.includes(:book)
+  end
+
+  def can_borrow_book?(book)
+    member? && book.available? && !book.borrowed_by?(self)
   end
 end

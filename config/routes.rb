@@ -6,7 +6,20 @@ Rails.application.routes.draw do
   root "pages#home"
   
   # Protected routes (authentication required)
-  resources :books
+  resources :books do
+    member do
+      post :borrow_book
+    end
+  end
+  
+  resources :loans, only: [:index, :show] do
+    member do
+      patch :return_book
+    end
+  end
+  
+  # Dashboard routes
+  get 'dashboard', to: 'dashboard#show'
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

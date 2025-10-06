@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_06_013033) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_06_014631) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_06_013033) do
     t.index ["title"], name: "index_books_on_title"
   end
 
+  create_table "loans", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "book_id", null: false
+    t.datetime "borrowed_at", null: false
+    t.datetime "due_date", null: false
+    t.datetime "returned_at"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_loans_on_book_id"
+    t.index ["due_date"], name: "index_loans_on_due_date"
+    t.index ["status"], name: "index_loans_on_status"
+    t.index ["user_id", "book_id", "status"], name: "index_loans_on_user_id_and_book_id_and_status", unique: true, where: "(status = 0)"
+    t.index ["user_id"], name: "index_loans_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -43,4 +59,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_06_013033) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "loans", "books"
+  add_foreign_key "loans", "users"
 end
