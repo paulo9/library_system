@@ -13,7 +13,7 @@ class Book < ApplicationRecord
   scope :by_genre, ->(genre) { where(genre: genre) }
   scope :by_author, ->(author) { where("author ILIKE ?", "%#{author}%") }
   scope :search, ->(query) { where("title ILIKE ? OR author ILIKE ?", "%#{query}%", "%#{query}%") }
-  scope :available, -> { where("total_copies > ?", 0) }
+  scope :available, -> { where("total_copies > 0") }
 
   # Methods
   def available_copies

@@ -8,27 +8,27 @@ class LoanPolicy < ApplicationPolicy
     user.present? && (user.librarian? || record.user == user)
   end
 
-  # Only members can borrow books
+  # Both members and librarians can create loans
   def create?
-    user&.member?
+    user&.member? || user&.librarian?
   end
 
   def new?
     create?
   end
 
-  # Only librarians can mark books as returned
+  # Librarians can update any loan, members can update their own loans
   def update?
-    user&.librarian?
+    user&.librarian? || (user&.member? && record.user == user)
   end
 
   def edit?
     update?
   end
 
-  # Only librarians can delete loan records
+  # Librarians can delete any loan record, members can delete their own loan records
   def destroy?
-    user&.librarian?
+    user&.librarian? || (user&.member? && record.user == user)
   end
 
   # Custom actions

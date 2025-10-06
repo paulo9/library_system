@@ -21,6 +21,20 @@ Rails.application.routes.draw do
   # Dashboard routes
   get 'dashboard', to: 'dashboard#show'
   
+  # API routes
+  namespace :api do
+    namespace :v1 do
+      # Authenticated API routes
+      resources :books, only: [:index, :show, :create, :update, :destroy]
+      resources :loans, only: [:index, :show, :create, :update, :destroy]
+      
+      # Public API routes (no authentication required)
+      namespace :public do
+        resources :books, only: [:index, :show]
+      end
+    end
+  end
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
